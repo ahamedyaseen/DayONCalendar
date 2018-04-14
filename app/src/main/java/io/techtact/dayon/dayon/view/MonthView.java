@@ -31,8 +31,26 @@ public class MonthView extends RecyclerView{
     private static final int SPANS_COUNT=7;
     private long mMonthMillis;
     private GridAdapter mAdapter;
+    private OnDateChangeListener mListener;
 
+    /**
+     * Callback interface for date selection events
+     */
+    interface OnDateChangeListener {
+        /**
+         * Fired when a new selection has been made via UI interaction
+         * @param dayMillis  selected day in milliseconds
+         */
+        void onSelectedDayChange(long dayMillis);
+    }
 
+    /**
+     * Sets listener to be notified when day selection changes
+     * @param listener  listener to be notified
+     */
+    void setOnDateChangeListener(OnDateChangeListener listener) {
+        mListener = listener;
+    }
     public MonthView(Context context) {
         this(context, null);
     }
@@ -68,6 +86,22 @@ public class MonthView extends RecyclerView{
         setAdapter(mAdapter);
     }
 
+    /**
+     * Sets selected day if it falls within this month, unset any previously selected day otherwise
+     * @param dayMillis    selected day in milliseconds, {@link CalendarUtils#NO_TIME_MILLIS} to clear
+     */
+    void setSelectedDay(long dayMillis) {
+        if (CalendarUtils.isNotTime(mMonthMillis)) {
+            return;
+        }
+        if (CalendarUtils.isNotTime(dayMillis)) {
+            mAdapter.setSelectedDay(CalendarUtils.NO_TIME_MILLIS);
+        } else if (CalendarUtils.sameMonth(mMonthMillis, dayMillis)) {
+            mAdapter.setSelectedDay(dayMillis);
+        } else {
+            mAdapter.setSelectedDay(CalendarUtils.NO_TIME_MILLIS);
+        }
+    }
 
     static class GridAdapter extends Adapter<GridAdapter.CellViewHolder> {
         private static final int VIEW_TYPE_HEADER = 0;

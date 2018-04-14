@@ -11,11 +11,23 @@
        android:animateLayoutChanges="true"
        tools:showIn="@layout/activity_main">
 
+   <io.techtact.dayon.dayon.view.EventCalendarView
+       android:id="@+id/calendar_view"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:background="?android:attr/colorBackground"
+       android:elevation="@dimen/default_elevation"
+       android:visibility="visible"
+       tools:ignore="UnusedAttribute"
+       tools:visibility="visible" />
+
+
    <io.techtact.dayon.dayon.view.MonthView
 
        android:id="@+id/month_view"
        android:layout_width="match_parent"
-       android:layout_height="wrap_content" />
+       android:layout_height="wrap_content"
+       android:visibility="gone" />
 
 
 
